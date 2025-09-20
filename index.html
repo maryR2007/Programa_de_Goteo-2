@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Programa de Goteo – Enfermería</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>Programa de Goteo <span class="tag">Enfermería</span></h1>
+      <div class="muted" style="margin-top:6px; font-size:14px">Cálculos seguros y verificados para infusiones IV.</div>
+    </div>
+  </header>
+
+  <main class="wrap grid" id="app">
+    <!-- Panel izquierdo: entradas y resultados -->
+    <section class="card">
+      <div class="hd">
+        <h2>Prescripción y Cálculo</h2>
+      </div>
+      <div class="bd">
+        <div class="row cols-2">
+          <div>
+            <label>Volumen a infundir (mL)</label>
+            <input type="number" id="volumen" placeholder="p.ej. 1000" min="0" step="0.1">
+          </div>
+          <div>
+            <label>Solución</label>
+            <select id="solucion">
+              <option value="SSN 0.9%">SSN 0.9%</option>
+              <option value="Ringer Lactato">Ringer Lactato</option>
+              <option value="Dextrosa 5%">Dextrosa 5%</option>
+              <option value="Otra">Otra</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row cols-2">
+          <div>
+            <label>Tiempo (horas)</label>
+            <input type="number" id="tiempoH" placeholder="p.ej. 8" min="0" step="0.1">
+            <div class="help">Al escribir horas, <strong>los minutos se rellenan automáticamente</strong>.</div>
+          </div>
+          <div>
+            <label>Tiempo (minutos)</label>
+            <input type="number" id="tiempoM" placeholder="p.ej. 480" min="0" step="1">
+          </div>
+        </div>
+
+        <div class="row cols-2">
+          <div>
+            <label>Factor de goteo (gtt/mL)</label>
+            <select id="factor">
+              <option value="60">Micro (60 gtt/mL)</option>
+              <option value="20" selected>Macro 20 gtt/mL</option>
+              <option value="15">Macro 15 gtt/mL</option>
+              <option value="10">Macro 10 gtt/mL</option>
+            </select>
+          </div>
+          <div>
+            <label>Redondeo de gotas/min</label>
+            <select id="rounding">
+              <option value="nearest" selected>A la más cercana</option>
+              <option value="ceil">Hacia arriba (seguro)</option>
+              <option value="floor">Hacia abajo</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="btns" style="margin-top:10px">
+          <button id="btnCalcular">Calcular</button>
+          <button class="btn-ok" id="btnEjemplo">Cargar ejemplo</button>
+          <button class="btn-ghost" id="btnLimpiar">Limpiar</button>
+        </div>
+
+        <div class="kpi">
+          <div class="box">
+            <div class="t">mL/h</div>
+            <div class="v" id="kMlH">–</div>
+          </div>
+          <div class="box">
+            <div class="t">gtt/min</div>
+            <div class="v" id="kGttMin">–</div>
+          </div>
+          <div class="box">
+            <div class="t">Tiempo total</div>
+            <div class="v" id="kTiempo">–</div>
+          </div>
+        </div>
+
+        <div class="results" id="results" aria-live="polite"></div>
+
+        <details style="margin-top:12px">
+          <summary>Fórmulas utilizadas (verificadas)</summary>
+          <div class="muted" style="margin-top:8px; line-height:1.6">
+            <p><strong>1) mL/h</strong> = Volumen(mL) ÷ Tiempo(horas).</p>
+            <p><strong>2) gtt/min</strong> = [Volumen(mL) × Factor(gtt/mL)] ÷ Tiempo(min).</p>
+            <p><strong>Equivalente:</strong> gtt/min = [mL/h × Factor] ÷ 60.</p>
+            <p><strong>3) Tiempo(horas)</strong> = Volumen(mL) ÷ mL/h.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- Panel derecho: guía y créditos -->
+    <aside class="card">
+      <div class="hd"><h2>Guía de uso</h2></div>
+      <div class="bd">
+        <ol style="margin-top:0; padding-left:18px; line-height:1.7">
+          <li>Escribe el <strong>volumen a infundir</strong> en mL.</li>
+          <li>Ingresa el <strong>tiempo en horas</strong>; los <em>minutos se convierten automáticamente</em>. Si lo prefieres, ajusta manualmente los minutos.</li>
+          <li>Selecciona el <strong>factor de goteo</strong> (según el equipo: micro 60, macro 10–20 gtt/mL).</li>
+          <li>Presiona <strong>Calcular</strong>. Obtendrás <strong>mL/h</strong> y <strong>gtt/min</strong> y un resumen de cálculo.</li>
+          <li>Usa <strong>Cargar ejemplo</strong> para ver un caso típico (1000 mL en 8 h con macro 20).</li>
+          <li>Con <strong>Redondeo</strong> puedes elegir cómo aproximar las gotas por minuto.</li>
+        </ol>
+
+        <div class="footer">
+          <div class="credits"><strong>Créditos:</strong> Maryana Romero Mesa · Maria Fernanda Saleme Nuñez · Nicol Benítez Nisperuza</div>
+          <div style="margin-top:8px">Versión 1.0 – Diseñado para prácticas académicas de enfermería.</div>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
